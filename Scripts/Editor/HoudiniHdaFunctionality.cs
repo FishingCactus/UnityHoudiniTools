@@ -4,7 +4,7 @@ using FishingCactus;
 
 public class HoudiniHdaFunctionality 
 {
-    [MenuItem( "FishingCactus/HoudiniHdaDuplicate" )]
+    [MenuItem( "FishingCactus/Houdini/HdaDuplicate" )]
     public static void onHoudiniHDADuplicate()
     {
         GameObject[] root_gameobject = Selection.gameObjects;
