@@ -12,30 +12,26 @@ namespace FishingCactus
     {
         // -- UNITY
 
-        [MenuItem( "FishingCactus/Houdini" )]
+        [MenuItem( "FishingCactus/Houdini/HdaSaver" )]
         public static void ShowWindow()
         {
             EditorWindow.GetWindow( typeof( HoudiniHdaSaver ) );
         }
 
-        private static readonly string HoudiniHdaSaverHelperVersion = "06/06/2019";
+        private readonly string HoudiniHdaSaverHelperVersion = "06/06/2019";
         private const string HoudiniDefineTag = "FC_USING_HOUDINI";
-        private static bool IsWindowToogle = false;
 
-        public static void Draw()
+        void OnGUI()
         {
             EditorGUILayout.BeginVertical();
             {
-                if( IsWindowToogle )
-                {
-                    DrawToolActions();
-                    DrawDataListContent();
-                }
+                DrawToolActions();
+                DrawDataListContent();
             }
             EditorGUILayout.EndVertical();
         }
 
-        private static void DrawToolActions()
+        private void DrawToolActions()
         {
             EditorGUILayout.HelpBox(
                 $"Buttons will act only for thicked assets{Environment.NewLine}" +
@@ -108,7 +104,7 @@ namespace FishingCactus
             }
         }
 
-        private static void DrawDataListContent()
+        private void DrawDataListContent()
         {
             for( int index = HoudiniHDASaver_Data.Count - 1; index >= 0; index-- )
             {
@@ -116,7 +112,7 @@ namespace FishingCactus
             }
         }
 
-        private static void ButtonRefreshListsClicked()
+        private void ButtonRefreshListsClicked()
         {
             HoudiniHDASaver_Data.Clear();
             HEU_HoudiniAssetRoot[] roots = FindObjectsOfType<HEU_HoudiniAssetRoot>();
@@ -139,7 +135,7 @@ namespace FishingCactus
             }
         }
 
-        private static void ButtonSortAllClicked()
+        private void ButtonSortAllClicked()
         {
             foreach( SceneHoudiniRoot data in HoudiniHDASaver_Data )
             {
@@ -151,7 +147,7 @@ namespace FishingCactus
             Debug.Log( $"Houdini HDA Save Helper : Sort All assets sorted)" );
         }
 
-        private static void ButtonRenameAllClicked()
+        private void ButtonRenameAllClicked()
         {
             string consoleLog = string.Empty;
             int affectedAssetsCount = 0;
@@ -167,7 +163,7 @@ namespace FishingCactus
             Debug.Log( $"Houdini HDA Save Helper : Rename All ({affectedAssetsCount} assets renamed) {Environment.NewLine}{consoleLog}" );
         }
 
-        private static void ButtonSaveAllClicked()
+        private void ButtonSaveAllClicked()
         {
             string consoleLog = string.Empty;
             int savedAssetsCount = 0;
@@ -191,7 +187,7 @@ namespace FishingCactus
             Debug.Log( $"Houdini HDA Save Helper : Save All ({savedAssetsCount} assets saved) {Environment.NewLine}{consoleLog}" );
         }
 
-        private static void ButtonBakeAllClicked()
+        private void ButtonBakeAllClicked()
         {
             string consoleLog = string.Empty;
             int bakedAssetsCount = 0;
@@ -221,7 +217,7 @@ namespace FishingCactus
 
         private const string FolderPathPlayerPrefsKey = "ArtistTools_HoudiniHdaSaverHelper_SaveFolder";
         private static bool IsFolderPathValidFlag = true;
-        private static bool IsWindowInit = false;
+        private bool IsWindowInit = false;
         private static string StaticFolderPath = string.Empty;
         private static List<SceneHoudiniRoot> HoudiniHDASaver_Data = new List<SceneHoudiniRoot>();
 
