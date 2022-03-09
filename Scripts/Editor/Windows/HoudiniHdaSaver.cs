@@ -321,7 +321,7 @@ namespace FishingCactus
                             {
                                 HEU_HoudiniAssetRoot assetRoot = AssetToggleCollection[index].RootAsset;
                                 string fullpath = CreateFullPath( folderPath, assetRoot.gameObject.name );
-                                HEU_AssetPresetUtility.SaveAssetPresetToFile( assetRoot._houdiniAsset, fullpath );
+                                HEU_AssetPresetUtility.SaveAssetPresetToFile( assetRoot.HoudiniAsset, fullpath );
                                 log += fullpath + Environment.NewLine;
                                 affectedRow++;
                             }
@@ -457,7 +457,7 @@ namespace FishingCactus
 
                     //Save
                     string fullpath = CreateFullPath( folder_path, assetName );
-                    HEU_AssetPresetUtility.SaveAssetPresetToFile( assetRoot._houdiniAsset, fullpath );
+                    HEU_AssetPresetUtility.SaveAssetPresetToFile( assetRoot.HoudiniAsset, fullpath );
                     log += fullpath;
 
                     //Bake
@@ -472,14 +472,14 @@ namespace FishingCactus
             private void BakeAsset( HEU_HoudiniAssetRoot asset_root, int index )
             {
                 GameObject assetGameObject = asset_root.gameObject;
-                HEU_HoudiniAsset asset = asset_root._houdiniAsset;
+                HEU_HoudiniAsset asset = asset_root.HoudiniAsset;
                 int siblingIndex = asset_root.transform.GetSiblingIndex();
-                asset._bakedEvent.AddListener( ( instance, success, outputList ) =>
+                asset.BakedDataEvent.AddListener( ( event_data ) =>
                 {
-                    if( success )
+                    if( event_data.CookSuccess )
                     {
-                        outputList[0].name = $"{assetGameObject.name}_baked";
-                        outputList[0].transform.SetSiblingIndex( siblingIndex );
+                        event_data.OutputObjects[0].name = $"{assetGameObject.name}_baked";
+                        event_data.OutputObjects[0].transform.SetSiblingIndex( siblingIndex );
                         AssetToggleCollection[index].ToDeleteFlag = true;
                     }
                 } );
@@ -594,7 +594,7 @@ namespace FishingCactus
 
                 public int CompareTo( RootAssetToggle other )
                 {
-                    return string.Compare( RootAsset.gameObject.name, other.RootAsset.gameObject.name );
+                    return string.Compare( RootAsset.gameObject.name, other.RootAsset.gameObject.name, StringComparison.InvariantCulture );
                 }
             }
         }
